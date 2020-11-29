@@ -9,3 +9,5 @@ class VIEW3D_OT_preTreatment(bpy.types.Operator):
     def execute(self, context):
 
         #TODO
+
+        return "FINISHED"
