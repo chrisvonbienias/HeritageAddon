@@ -12,8 +12,8 @@ bl_info = {
 import bpy
 
 #Classes imports
-from . import HERITAGE_PT_panel
-from . import VIEW3D_OT_preTreatment
+from .ui import HERITAGE_PT_panel
+from .pre_treatment import VIEW3D_OT_preTreatment
 
 #Clases
 classes = (
