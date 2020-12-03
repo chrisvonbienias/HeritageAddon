@@ -11,9 +11,9 @@ class HERITAGE_PT_panel(bpy.types.Panel):
 
         layout = self.layout
         layout.label(text = "Algorytm do wstępnej obóbki siatki")
-        row = layout.row()
-        row.operator("view3d.pre_treatment", text="Pre-Treatment")
+        layout.operator("view3d.pre_treatment", text="Pre-Treatment")
 
         layout.label(text="Algorytm zaznaczający vertexy o tym samym kolorze")
+        layout.operator("view3d.select_by_vertexcolor")
         
         

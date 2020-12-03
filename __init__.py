@@ -14,11 +14,13 @@ import bpy
 #Classes imports
 from .ui import HERITAGE_PT_panel
 from .pre_treatment import VIEW3D_OT_preTreatment
+from .vertex_color import VIEW3D_OT_vertexColor
 
 #Clases
 classes = (
     HERITAGE_PT_panel,
-    VIEW3D_OT_preTreatment
+    VIEW3D_OT_preTreatment,
+    VIEW3D_OT_vertexColor
 )
 
 #Registration
