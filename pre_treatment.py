@@ -12,6 +12,7 @@ class VIEW3D_OT_preTreatment(bpy.types.Operator):
         bpy.ops.object.editmode_toggle()
         #Delete loose vertices, edges and faces
         bpy.ops.mesh.delete_loose(use_verts=True, use_edges=True, use_faces=True)
+        bpy.ops.mesh.remove_doubles(threshold=0.001)
         #Fill holes
         bpy.ops.mesh.fill_holes(sides=100)
         #Exit edit mode
