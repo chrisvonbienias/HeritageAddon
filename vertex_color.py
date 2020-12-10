@@ -13,6 +13,8 @@ class VIEW3D_OT_vertexColor(bpy.types.Operator):
         
         bpy.ops.object.editmode_toggle()
         so = bpy.context.active_object
+        #vertCol = bpy.types.Mesh.vertex_colors
+        vertCol = so.data.
         bm = bmesh.from_edit_mesh(so.data)
 
         vertices = [e for e in bm.verts]
