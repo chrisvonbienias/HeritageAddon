@@ -1,4 +1,5 @@
 import bpy
+import bmesh
 
 class VIEW3D_OT_preTreatment(bpy.types.Operator):
 
@@ -19,7 +20,7 @@ class VIEW3D_OT_preTreatment(bpy.types.Operator):
         bpy.ops.object.editmode_toggle()
 
         #Find smallest voxel size
-        #TODO
+        findSmallestVoxel(self, context)
 
         voxel = 0.1 #Placeholder for real value
 
@@ -28,3 +29,24 @@ class VIEW3D_OT_preTreatment(bpy.types.Operator):
         bpy.context.object.modifiers["Remesh"].voxel_size = voxel
 
         return {"FINISHED"}
+
+
+def findSmallestVoxel(self, context):
+
+    bm = bmesh.new()
+    bm.from_mesh(bpy.context.object.data)
+
+    bm.edges.ensure_lookup_table()
+    len = bm.edges[0].calc_length()
+    print(bm.edges[0].verts[0])
+
+    for e in bm.edges:
+        
+
+        curr = e.calc_length()
+
+        if curr < len :
+
+            len = curr
+
+            
