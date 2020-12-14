@@ -41,8 +41,7 @@ def findSmallestVoxel(self, context):
     print(bm.edges[0].verts[0])
 
     for e in bm.edges:
-        
-
+    
         curr = e.calc_length()
 
         if curr < len :
