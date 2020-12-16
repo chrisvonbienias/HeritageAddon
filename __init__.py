@@ -13,14 +13,18 @@ import bpy
 
 #Classes imports
 from .ui import HERITAGE_PT_panel
-from .pre_treatment import VIEW3D_OT_preTreatment
-from .vertex_color import VIEW3D_OT_vertexColor
+from .pre_treatment import HERITAGE_OT_preTreatment
+from .vertex_color import HERITAGE_OT_vertexColor
+from .curvature import HERITAGE_OT_checkCurvature
+from .holes import HERITAGE_OT_selectHoles
 
 #Clases
 classes = (
     HERITAGE_PT_panel,
-    VIEW3D_OT_preTreatment,
-    VIEW3D_OT_vertexColor
+    HERITAGE_OT_preTreatment,
+    HERITAGE_OT_vertexColor,
+    HERITAGE_OT_checkCurvature,
+    HERITAGE_OT_selectHoles
 )
 
 #Registration
