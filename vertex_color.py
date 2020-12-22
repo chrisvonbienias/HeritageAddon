@@ -2,9 +2,9 @@ import bpy
 from collections import defaultdict
 from mathutils import Vector
 
-class VIEW3D_OT_vertexColor(bpy.types.Operator):
+class HERITAGE_OT_vertexColor(bpy.types.Operator):
 
-    bl_idname = "view3d.select_by_vertexcolor"
+    bl_idname = "heritage.select_by_vertexcolor"
     bl_label = "Select by vertex color"
     bl_description = "Selects vertices based on color ID"
 
