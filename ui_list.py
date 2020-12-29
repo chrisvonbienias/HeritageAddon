@@ -12,15 +12,8 @@ class ListItem (PropertyGroup):
 
     )
 
-    index: IntProperty(
 
-        name = "Index",
-        description = "Index of item",
-        default = ""
-
-    )
-
-class HERITAGE_UI_List (UIList):
+class HERITAGE_UL_List (UIList):
 
     def draw_item (self, context, layout, data, item, icon, active_data, active_propname, index):
 

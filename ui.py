@@ -7,7 +7,7 @@ class HERITAGE_PT_panel(bpy.types.Panel):
     bl_category = "Heritage"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
-    bl_context = "scene"
+    #bl_context = "scene"
 
     def draw(self, context):
 
@@ -27,7 +27,7 @@ class HERITAGE_PT_panel(bpy.types.Panel):
         layout.operator("heritage.select_holes")
         
         row = layout.row()
-        row.template_list("HERITGE_UI_List", "The_List", scene, "my_list", scene, "list_index")
+        row.template_list("HERITAGE_UL_List", "The_List", scene, "my_list", scene, "list_index")
 
         row = layout.row()
         row.operator('my_list.new_item', text = 'NEW')
@@ -39,4 +39,4 @@ class HERITAGE_PT_panel(bpy.types.Panel):
 
             row = layout.row()
             row.prop(item, "name")
-            row.prop(item, "index")
+        
