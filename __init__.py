@@ -14,16 +14,21 @@ from bpy.props import StringProperty, IntProperty, CollectionProperty
 from bpy.types import PropertyGroup, UIList, Operator, Panel 
 
 #Classes imports
-from .ui import HERITAGE_PT_panel
+from .ui import HERITAGE_PT_panel, HERITAGE_PT_panelTexture, HERITAGE_PT_panelPre, HERITAGE_PT_panelModelling, HERITAGE_PT_panelAfter
 from .pre_treatment import HERITAGE_OT_preTreatment
 from .vertex_color import HERITAGE_OT_vertexColor
 from .curvature import HERITAGE_OT_checkCurvature
 from .holes import HERITAGE_OT_selectHoles
 from .ui_list import ListItem, HERITAGE_UL_List, LIST_OT_DeleteItem, LIST_OT_NewItem
+from .vertex_shader import HERITAGE_OT_addMaskShader, HERITAGE_OT_findColorID
 
 #Clases
 classes = (
     HERITAGE_PT_panel,
+    HERITAGE_PT_panelTexture,
+    HERITAGE_PT_panelPre,
+    HERITAGE_PT_panelModelling,
+    HERITAGE_PT_panelAfter,
     HERITAGE_OT_preTreatment,
     HERITAGE_OT_vertexColor,
     HERITAGE_OT_checkCurvature,
@@ -31,7 +36,9 @@ classes = (
     ListItem,
     HERITAGE_UL_List,
     LIST_OT_NewItem,
-    LIST_OT_DeleteItem
+    LIST_OT_DeleteItem,
+    HERITAGE_OT_addMaskShader,
+    HERITAGE_OT_findColorID
 )
 
 #Registration

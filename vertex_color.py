@@ -10,11 +10,16 @@ class HERITAGE_OT_vertexColor(bpy.types.Operator):
 
     def execute(self, context):
 
+        if bpy.context.active_object.mode == 'EDIT':
+            
+            bpy.ops.object.editmode_toggle()
+        
         obj = bpy.context.active_object
         col = obj.data.vertex_colors.active
         polygons = obj.data.polygons
 
-        color = Vector((1, 1, 0, 0))
+        color = getColor(obj)
+        color = Vector(color)
         epsilon = 0.01
 
         vertex_map = defaultdict(list)
@@ -28,12 +33,40 @@ class HERITAGE_OT_vertexColor(bpy.types.Operator):
                 
                 comp = (color - Vector(col.data[l_ix].color)).length_squared
 
-                if comp < 1.0 + epsilon:
+                if comp <= epsilon:
                     
                     obj.data.vertices[v_ix].select = True
+                    #print("Color: ", color, "Comp: ", comp, "Index: ", v_ix)
                     
         bpy.ops.object.editmode_toggle()
         bpy.ops.mesh.select_mode(type='VERT')
         bpy.ops.mesh.select_mode(type='FACE')    
 
         return {"FINISHED"}
+
+def getColor(obj):
+
+    obj = bpy.context.active_object
+
+    colors = obj.data.vertex_colors.active.data
+    selected_poly = list(filter(lambda p: p.select, obj.data.polygons))
+        
+    if len(selected_poly):
+
+        p = selected_poly[0]
+        r = g = b = 0
+        
+        for i in p.loop_indices:
+            
+            c = colors[i].color
+            r += c[0]
+            g += c[1]
+            b += c[2]
+            
+        r /= p.loop_total
+        g /= p.loop_total
+        b /= p.loop_total
+        
+        color = (r, g, b, 1.0)
+
+    return color

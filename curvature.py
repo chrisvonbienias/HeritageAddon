@@ -15,9 +15,9 @@ class HERITAGE_OT_checkCurvature(bpy.types.Operator):
 
         edges = bm.edges
         edges.ensure_lookup_table()
-        median = 0
-        max = -2
-        min = 2
+        cmedian = 0
+        cmax = -2
+        cmin = 2
 
         for e in edges:
             
@@ -29,14 +29,22 @@ class HERITAGE_OT_checkCurvature(bpy.types.Operator):
             curva = (n2 - n1).dot(p2 - p1)
             curva = curva / (p2 - p1).length
             #print(curva)
-            median += curva
+            cmedian += curva
             
-            if curva > max: max = curva
-            if curva < min: min = curva
+            if curva > cmax: cmax = curva
+            if curva < cmin: cmin = curva
 
-        median = median/len(edges)
-        print("Median: ", median)
-        print("Max: ", max)
-        print("Min: ", min)
+        cmedian = cmedian/len(edges)
+
+        bpy.context.scene['CMin'] = 1.0
+        bpy.context.scene['CMax'] = 1.0
+        bpy.context.scene['CMedian'] = 1.0
+
+        bpy.types.Scene.CMin = bpy.props.FloatProperty()
+        bpy.types.Scene.CMin = round(cmin, 2)
+        bpy.types.Scene.CMax = bpy.props.FloatProperty()
+        bpy.types.Scene.CMax = round(cmax, 2)
+        bpy.types.Scene.CMedian = bpy.props.FloatProperty()
+        bpy.types.Scene.CMedian = round(cmedian, 2)
 
         return {'FINISHED'}

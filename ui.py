@@ -1,12 +1,17 @@
 import bpy
 
-class HERITAGE_PT_panel(bpy.types.Panel):
+class HERITAGE_panel:
+
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "Heritage"
+    bl_options = {'DEFAULT_CLOSED'}
+
+
+class HERITAGE_PT_panel(HERITAGE_panel, bpy.types.Panel):
 
     bl_idname = "HERITAGE_PT_panel"
     bl_label = "Heritage Addon"
-    bl_category = "Heritage"
-    bl_space_type = "VIEW_3D"
-    bl_region_type = "UI"
     #bl_context = "scene"
 
     def draw(self, context):
@@ -14,16 +19,29 @@ class HERITAGE_PT_panel(bpy.types.Panel):
         layout = self.layout
         scene = context.scene
 
-        layout.label(text = "Algorytm do wstępnej obóbki siatki")
+class HERITAGE_PT_panelPre(HERITAGE_panel, bpy.types.Panel):
+
+    bl_parent_id = "HERITAGE_PT_panel"
+    bl_label = "Pre-treatment"
+
+    def draw(self, context):
+
+        layout = self.layout
+
         layout.operator("heritage.pre_treatment", text="Pre-Treatment")
 
-        layout.label(text="Algorytm zaznaczający vertexy o tym samym kolorze")
-        layout.operator("heritage.select_by_vertexcolor")
-        
-        layout.label(text="Algorytm sprawdzający krzywiznę siatki")
-        layout.operator("heritage.check_curvature")
+class HERITAGE_PT_panelModelling(HERITAGE_panel, bpy.types.Panel):
 
-        layout.label(text="Algorytm zaznaczający dziury")
+    bl_parent_id = "HERITAGE_PT_panel"
+    bl_label = "Modelling"
+
+    def draw(self, context):
+
+        layout = self.layout
+        scene = context.scene
+
+        layout.operator("heritage.select_by_vertexcolor")
+
         layout.operator("heritage.select_holes")
         
         row = layout.row()
@@ -39,4 +57,41 @@ class HERITAGE_PT_panel(bpy.types.Panel):
 
             row = layout.row()
             row.prop(item, "name")
-        
+
+class HERITAGE_PT_panelAfter(HERITAGE_panel, bpy.types.Panel):
+
+    bl_parent_id = "HERITAGE_PT_panel"
+    bl_label = "Mesh checking"
+
+    def draw(self, context):
+
+        layout = self.layout
+
+        layout.operator("heritage.check_curvature")
+
+        min = "Min: " + str(bpy.types.Scene.CMin)
+        max = "Max: " + str(bpy.types.Scene.CMax)
+        median = "Average: " + str(bpy.types.Scene.CMedian)
+        layout.label(text=min)
+        layout.label(text=max)
+        layout.label(text=median)
+
+
+
+class HERITAGE_PT_panelTexture(bpy.types.Panel):
+
+    bl_idname = "HERITAGE_PT_panelTexture"
+    bl_label = "Heritage Addon"
+    bl_category = "Heritage"
+    bl_space_type = "NODE_EDITOR"
+    bl_region_type = "UI"
+    #bl_context = "scene"
+
+    def draw(self, context):
+
+        layout = self.layout
+        scene = context.scene
+
+        layout.operator("heritage.add_mask_shader")
+
+        layout.operator("heritage.find_colorid")
