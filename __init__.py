@@ -11,16 +11,17 @@ bl_info = {
 #Library imports
 import bpy
 from bpy.props import StringProperty, IntProperty, CollectionProperty
-from bpy.types import PropertyGroup, UIList, Operator, Panel 
+from bpy.types import PropertyGroup, UIList, Operator, Panel
+import colorsys
 
 #Classes imports
-from .ui import HERITAGE_PT_panel, HERITAGE_PT_panelTexture, HERITAGE_PT_panelPre, HERITAGE_PT_panelModelling, HERITAGE_PT_panelAfter
-from .pre_treatment import HERITAGE_OT_preTreatment
-from .vertex_color import HERITAGE_OT_vertexColor
-from .curvature import HERITAGE_OT_checkCurvature
-from .holes import HERITAGE_OT_selectHoles
-from .ui_list import ListItem, HERITAGE_UL_List, LIST_OT_DeleteItem, LIST_OT_NewItem
-from .vertex_shader import HERITAGE_OT_addMaskShader, HERITAGE_OT_findColorID
+from .ui import *
+from .pre_treatment import *
+from .vertex_color import *
+from .curvature import *
+from .holes import *
+from .ui_list import *
+from .vertex_shader import *
 
 #Clases
 classes = (
@@ -37,6 +38,9 @@ classes = (
     HERITAGE_UL_List,
     LIST_OT_NewItem,
     LIST_OT_DeleteItem,
+    LIST_OT_AssignObject,
+    LIST_OT_RemoveObject,
+    LIST_OT_ColorObjects,
     HERITAGE_OT_addMaskShader,
     HERITAGE_OT_findColorID
 )
@@ -50,6 +54,15 @@ def register():
 
     bpy.types.Scene.my_list = CollectionProperty(type = ListItem)
     bpy.types.Scene.list_index = IntProperty(name = "Index for my_list", default = 0)
+    bpy.types.Scene.idx = IntProperty(name = "ID", default = 0)
+    color_dict = colorDict()
+    bpy.types.Scene.color_dict = color_dict
+
+    bpy.types.Scene.CMin = 0
+    bpy.types.Scene.CMax = 0
+    bpy.types.Scene.CMedian = 0
+
+    bpy.types.Object.color_id = IntProperty(name = "Color ID", default = 0)
 
 #Unregistration
 def unregister():
@@ -68,3 +81,23 @@ if __name__ == "__main__":
 
     register()
 
+def colorDict():
+
+    color_dict = defaultdict(tuple)
+    i = 0
+    color_dict[-1] = (1.0, 1.0, 1.0, 1.0)
+
+    for r in range(2, -1, -1):
+        for g in range(2, -1, -1):
+            for b in range(2, -1, -1):
+
+                color = (r/2.0, g/2.0, b/2.0)
+                color_hsv = colorsys.rgb_to_hsv(r/2.0, g/2.0, b/2.0)
+
+                if (color_hsv[2] == 1.0 and color != (1.0, 1.0, 1.0)):
+
+                    color += (1.0,)
+                    color_dict[i] = color
+                    i += 1
+    
+    return color_dict

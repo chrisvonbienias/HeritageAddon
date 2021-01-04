@@ -6,6 +6,11 @@ class HERITAGE_OT_selectHoles(bpy.types.Operator):
     bl_label = "Select holes in mesh"
     bl_description = "Selects holes in mesh"
 
+    @classmethod
+    def poll(cls, context):
+
+        return bpy.context.active_object
+
     def execute(self, context):
 
         if bpy.context.active_object.mode != 'EDIT':

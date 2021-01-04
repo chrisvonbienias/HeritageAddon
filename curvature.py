@@ -8,6 +8,11 @@ class HERITAGE_OT_checkCurvature(bpy.types.Operator):
     bl_label = "Calculate curvature"
     bl_description = "Calculate minimal and maximal mesh curvature"
 
+    @classmethod
+    def poll(cls, context):
+
+        return bpy.context.active_object
+
     def execute(self, context):
 
         bm = bmesh.new()

@@ -7,6 +7,11 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
     bl_label = "Pre-Treatment"
     bl_description = "Preliminary treatment of the imported mesh"
 
+    @classmethod
+    def poll(cls, context):
+
+        return bpy.context.active_object
+        
     def execute(self, context):
 
         #Enter Edit Mode
@@ -20,9 +25,9 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
         bpy.ops.object.editmode_toggle()
 
         #Find smallest voxel size
-        findSmallestVoxel(self, context)
+        voxel = findSmallestVoxel(self, context)
 
-        voxel = 0.1 #Placeholder for real value
+        #voxel = 0.1 #Placeholder for real value
 
         #Add Remesh modifier
         bpy.ops.object.modifier_add(type="REMESH")
@@ -47,5 +52,7 @@ def findSmallestVoxel(self, context):
         if curr < len :
 
             len = curr
+
+    return len
 
             

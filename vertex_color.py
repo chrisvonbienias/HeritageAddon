@@ -8,6 +8,11 @@ class HERITAGE_OT_vertexColor(bpy.types.Operator):
     bl_label = "Select by vertex color"
     bl_description = "Selects vertices based on color ID"
 
+    @classmethod
+    def poll(cls, context):
+
+        return bpy.context.active_object
+
     def execute(self, context):
 
         if bpy.context.active_object.mode == 'EDIT':
