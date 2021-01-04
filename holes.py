@@ -9,16 +9,14 @@ class HERITAGE_OT_selectHoles(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
 
-        return bpy.context.active_object
+        return bpy.context.active_object and context.mode == 'EDIT_MESH'
 
     def execute(self, context):
 
-        if bpy.context.active_object.mode != 'EDIT':
-            
-            bpy.ops.object.editmode_toggle()
-
+        bpy.ops.mesh.select_all(action='DESELECT')
         bpy.ops.mesh.select_mode(type = 'VERT')
         bpy.ops.mesh.select_non_manifold()
+        bpy.ops.mesh.select_mode(type = 'EDGE')
 
         return {"FINISHED"}
 

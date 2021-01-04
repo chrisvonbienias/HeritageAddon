@@ -120,14 +120,24 @@ def vertexShader(self, context):
     nodes[i+3].inputs[0].default_value = 1.0
     nodes[i+3].inputs[1].default_value = 0.01
 
+    nodes.new("ShaderNodeBrightContrast")
+
+    nodes.new("ShaderNodeMath")
+    nodes[i+5].operation = 'SUBTRACT'
+    nodes[i+5].inputs[1].default_value = 1.0
+
     links.new(nodes[i].outputs[0], nodes[i+1].inputs[1])
     links.new(nodes[i+1].outputs[0], nodes[i+2].inputs[0])
     links.new(nodes[i+3].outputs[0], nodes[i+2].inputs[1])
+    links.new(nodes[i+2].outputs[0], nodes[i+4].inputs[0])
+    links.new(nodes[i+5].outputs[0], nodes[i+4].inputs[1])
 
     nodes[i].location = (200, 0)
     nodes[i+1].location = (400, 0)
     nodes[i+2].location = (600, 0)
     nodes[i+3].location = (400, -200)
+    nodes[i+4].location = (800, 0)
+    nodes[i+5].location = (500, -400)
 
     bpy.ops.node.group_make()
 
@@ -136,18 +146,25 @@ def vertexShader(self, context):
     node_group = node_groups[j-1]
     g_links = node_group.links
     g_nodes = node_group.nodes
-
-    g_nodes[4].outputs.new("Color4f", "Vertex Color")
-    g_nodes[4].outputs.new("Color4f", "Target Color")
-    g_nodes[4].outputs.new("int", "Tolerance")
-    g_links.new(g_nodes[4].outputs[0], g_nodes[0].inputs[1])
-    g_links.new(g_nodes[4].outputs[1], g_nodes[0].inputs[2])
-    g_links.new(g_nodes[4].outputs[2], g_nodes[3].inputs[1])
-    g_links.new(g_nodes[2].outputs[0], g_nodes[5].inputs[0])
+    
+    g_nodes[6].outputs.new("Color4f", "Vertex Color")
+    g_nodes[6].outputs.new("Color4f", "Target Color")
+    g_nodes[6].outputs.new("int", "Brightness")
+    g_nodes[6].outputs.new("int", "Tolerance")
+    
+    g_links.new(g_nodes[6].outputs[0], g_nodes[0].inputs[1])
+    g_links.new(g_nodes[6].outputs[1], g_nodes[0].inputs[2])
+    g_links.new(g_nodes[6].outputs[2], g_nodes[5].inputs[0])
+    g_links.new(g_nodes[6].outputs[3], g_nodes[3].inputs[1])
+    g_links.new(g_nodes[4].outputs[0], g_nodes[7].inputs[0])
     
     node_group.inputs[0].name = "Vertex Color"
     node_group.inputs[1].name = "Target Color"
-    node_group.inputs[2].name = "Tolerance"
+    node_group.inputs[2].name = "Strength"
+    node_group.inputs[2].min_value = 0
+    node_group.inputs[2].max_value = 1.0
+    node_group.inputs[2].default_value = 1.0
+    node_group.inputs[3].name = "Tolerance"
     node_group.inputs[2].default_value = 0.01
     
     bpy.ops.node.group_edit(exit=False)

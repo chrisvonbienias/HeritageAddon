@@ -10,7 +10,7 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
 
-        return bpy.context.active_object
+        return bpy.context.active_object and context.mode == 'OBJECT'
         
     def execute(self, context):
 

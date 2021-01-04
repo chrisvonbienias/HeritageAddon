@@ -41,12 +41,17 @@ class LIST_OT_NewItem (Operator):
     bl_idname = "my_list.new_item"
     bl_label = "Add a new item"
 
+    @classmethod
+    def poll(cls, context):
+
+        return context.mode == 'OBJECT'
+
     def execute(self, context):
 
         if not context.scene.my_list:
 
             context.scene.idx = 0
-            
+
         context.scene.my_list.add()
         index = context.scene.idx
         context.scene.my_list[-1].idx = index
@@ -63,7 +68,7 @@ class LIST_OT_DeleteItem (Operator):
     @classmethod
     def poll(cls, context):
 
-        return context.scene.my_list
+        return context.scene.my_list and context.mode == 'OBJECT'
 
     def execute(self, context):
 
@@ -135,8 +140,8 @@ class LIST_OT_ColorObjects (Operator):
     @classmethod
     def poll(cls, context):
 
-        return context.active_object.mode == 'OBJECT'
-
+        return context.mode == 'OBJECT'
+        
     def execute(self, context):
 
         objects = context.scene.objects
