@@ -44,19 +44,32 @@ class LIST_OT_NewItem (Operator):
     @classmethod
     def poll(cls, context):
 
-        return context.mode == 'OBJECT'
+        return context.mode == 'OBJECT' and len(context.scene.my_list) <= len(context.scene.color_dict) - 2
 
     def execute(self, context):
+
+        id_list = []
+        col_list = list(context.scene.color_dict.keys())
+        col_list.pop(0)
+
+        for l in context.scene.my_list:
+            
+            id_list.append(l.idx)
+
+        diff = list(list(set(id_list) - set(col_list)) + list(set(col_list) - set(id_list)))
+
+        context.scene.my_list.add()
 
         if not context.scene.my_list:
 
             context.scene.idx = 0
 
-        context.scene.my_list.add()
-        index = context.scene.idx
+        else:
+
+            index = min(diff)
+
         context.scene.my_list[-1].idx = index
         context.scene.my_list[-1].name = "Material " + str(index)
-        context.scene.idx += 1
 
         return{'FINISHED'}
 
@@ -153,9 +166,10 @@ class LIST_OT_ColorObjects (Operator):
             color_id = obj.color_id
             color = color_dict[color_id]
 
-            if not obj.data.vertex_colors.active:
+            if not ('Masking' in obj.data.vertex_colors.keys()):
 
-                obj.data.vertex_colors.new()
+                obj.data.vertex_colors.new(name = 'Masking')
+                obj.data.vertex_colors['Masking'].active = True
 
             color_layer = obj.data.vertex_colors.active
 

@@ -71,18 +71,30 @@ class HERITAGE_PT_panelAfter(HERITAGE_panel, bpy.types.Panel):
 
     def draw(self, context):
 
+        obj = context.active_object
+
         layout = self.layout
+        row = layout.row()
+        row.operator("heritage.toggle_face_orientation", text = "Toggle FO")
 
-        layout.operator("heritage.check_curvature")
+        layout = self.layout
+        layout.label(text = "Curvature")
+        layout.alignment = 'CENTER'
+        row = layout.row()
+        row.operator("heritage.check_curvature", text = "Check",)
+        row.operator("heritage.color_curvature", text = "Color mesh")
 
-        min = "Min: " + str(bpy.types.Scene.CMin)
-        max = "Max: " + str(bpy.types.Scene.CMax)
-        median = "Average: " + str(bpy.types.Scene.CMedian)
-        layout.label(text=min)
-        layout.label(text=max)
-        layout.label(text=median)
+        min = "Min: " + str(round(obj.curv_data[0], 2))
+        max = "Max: " + str(round(obj.curv_data[1], 2))
+        median = "Average: " + str(round(obj.curv_data[2], 2))
+        layout.label(text=min + "       " + max)
 
-
+        layout = self.layout
+        layout.operator("heritage.check_mesh", text = "Check mesh")
+        layout.label(text = "Curvature: " + obj.curv_status)
+        layout.label(text = "Holes: " + str(obj.mesh_status[0]))
+        layout.label(text = "Flat Faces: " + str(obj.mesh_status[1]))
+        layout.label(text = "Density: " + str(obj.mesh_status[2]))
 
 class HERITAGE_PT_panelTexture(bpy.types.Panel):
 

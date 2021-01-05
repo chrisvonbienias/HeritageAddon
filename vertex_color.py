@@ -74,4 +74,8 @@ def getColor(obj):
         
         color = (r, g, b, 1.0)
 
-    return color
+        return color
+
+    else:
+
+        return (0, 0, 0, 0)

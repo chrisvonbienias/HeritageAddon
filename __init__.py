@@ -10,7 +10,7 @@ bl_info = {
 
 #Library imports
 import bpy
-from bpy.props import StringProperty, IntProperty, CollectionProperty
+from bpy.props import *
 from bpy.types import PropertyGroup, UIList, Operator, Panel
 import colorsys
 
@@ -22,6 +22,7 @@ from .curvature import *
 from .holes import *
 from .ui_list import *
 from .vertex_shader import *
+from .mesh_check import *
 
 #Clases
 classes = (
@@ -33,6 +34,7 @@ classes = (
     HERITAGE_OT_preTreatment,
     HERITAGE_OT_vertexColor,
     HERITAGE_OT_checkCurvature,
+    HERITAGE_OT_colorCurvature,
     HERITAGE_OT_selectHoles,
     ListItem,
     HERITAGE_UL_List,
@@ -42,7 +44,9 @@ classes = (
     LIST_OT_RemoveObject,
     LIST_OT_ColorObjects,
     HERITAGE_OT_addMaskShader,
-    HERITAGE_OT_findColorID
+    HERITAGE_OT_findColorID,
+    HERITAGE_OT_toggleFaceOrientation,
+    HERITAGE_OT_checkMesh
 )
 
 #Registration
@@ -58,11 +62,12 @@ def register():
     color_dict = colorDict()
     bpy.types.Scene.color_dict = color_dict
 
-    bpy.types.Scene.CMin = 0
-    bpy.types.Scene.CMax = 0
-    bpy.types.Scene.CMedian = 0
-
+    bpy.types.Object.curv_data = FloatVectorProperty(name = "Curvature values", default = (0, 0, 0), 
+                                                    min = -2.0, max = 2.0, precision = 0, size = 3 )
     bpy.types.Object.color_id = IntProperty(name = "Color ID", default = 0)
+    bpy.types.Object.mesh_status = IntVectorProperty(name = "Mesh status", default = (0, 0, 0), size = 3)
+    bpy.types.Object.curv_status = StringProperty(name = "Curvature status", default = "N/A")
+    bpy.types.Object.uv_status = StringProperty(name = "UV status", default = "N/A")
 
 #Unregistration
 def unregister():
