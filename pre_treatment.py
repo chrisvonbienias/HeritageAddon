@@ -39,7 +39,7 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
 def findSmallestVoxel(self, context):
 
     bm = bmesh.new()
-    bm.from_mesh(bpy.context.object.data)
+    bm.from_mesh(bpy.context.active_object.data)
 
     bm.edges.ensure_lookup_table()
     len = bm.edges[0].calc_length()
