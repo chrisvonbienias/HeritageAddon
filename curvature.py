@@ -14,7 +14,7 @@ class HERITAGE_OT_checkCurvature(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
 
-        return bpy.context.active_object.type == 'MESH' and context.mode == 'OBJECT'
+        return bpy.context.active_object
 
     def execute(self, context):
 
@@ -60,7 +60,7 @@ class HERITAGE_OT_colorCurvature(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
 
-        return bpy.context.active_object.type == 'MESH' and context.mode == 'OBJECT'
+        return bpy.context.active_object
 
     def execute(self, context):
 
@@ -113,7 +113,7 @@ class HERITAGE_OT_colorCurvature(bpy.types.Operator):
             for l in edge_map[e.index]:
 
                 curva = abs(curva)
-                h = np.interp(curva, [0, 2.0], [0.33, 0])
+                h = np.interp(curva, [0.2, 1.2], [0.33, 0])
                 color = colorsys.hsv_to_rgb(h, 1.0, 1.0)
                 color += (1.0,)
                 col.data[l.index].color = color

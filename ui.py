@@ -31,8 +31,7 @@ class HERITAGE_PT_panelPre(HERITAGE_panel, bpy.types.Panel):
         layout = self.layout
 
         layout.operator("heritage.pre_treatment", text="Pre-Treatment")
-        layout.prop(obj, 'merge_limit', text = "Merge distance [m]")
-        layout.prop(obj, 'voxel_limit', text = "Voxel size [m]")
+        layout.prop(obj, 'mesh_precision', text = "Precision")
 
 class HERITAGE_PT_panelModelling(HERITAGE_panel, bpy.types.Panel):
 

@@ -43,6 +43,7 @@ class HERITAGE_OT_findColorID(bpy.types.Operator):
         x = -500
 
         colors = vertexList(obj)
+        print(colors)
 
         status = False
         for n in nodes:
@@ -79,23 +80,24 @@ def vertexList(obj):
 
     col = obj.data.vertex_colors.active
 
-    colors = np.empty([0,4])
+    colors = list()
 
     for c in col.data:
         
         r = round(c.color[0], 2)
         g = round(c.color[1], 2)
         b = round(c.color[2], 2)
-        
-        color = [r, g, b, 1.0]   
-        colors = np.vstack((colors, color))
-        
-    colors = np.unique(colors, axis=0)
+    
+        color = [r, g, b, 1.0]
+
+        if not (color in colors):
+
+            colors.append(color)
 
     return colors
 
 def vertexShader(self, context):
-
+    print('VertexShader...')
     bpy.ops.node.select_all(action='DESELECT')
 
     material = bpy.context.view_layer.objects.active.active_material

@@ -68,8 +68,7 @@ def register():
     bpy.types.Object.mesh_status = IntVectorProperty(name = "Mesh status", default = (0, 0, 0), size = 3)
     bpy.types.Object.curv_status = StringProperty(name = "Curvature status", default = "N/A")
     bpy.types.Object.uv_status = StringProperty(name = "UV status", default = "N/A")
-    bpy.types.Object.merge_limit = FloatProperty(name = "Merge limit", default = 0)
-    bpy.types.Object.voxel_limit = IntProperty(name = "Voxel limit", default = 0)
+    bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.01, precision = 6, unit = 'LENGTH')
 
     #bmesh.types.BMEdge.curvature = FloatProperty(name = "Curvature", default = 0)
 
@@ -85,8 +84,7 @@ def unregister():
     del bpy.types.Object.mesh_status
     del bpy.types.Object.curv_status
     del bpy.types.Object.uv_status
-    del bpy.types.Object.merge_limit
-    del bpy.types.Object.voxel_limit
+    del bpy.types.Object.mesh_precision
     
     for cls in classes:
 

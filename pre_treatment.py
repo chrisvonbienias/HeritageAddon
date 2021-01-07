@@ -18,31 +18,35 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
 
         obj = context.active_object
         mods = obj.modifiers
-        merge_limit = obj.merge_limit
-        voxel_limit = obj.voxel_limit
+        prec = obj.mesh_precision
 
-        if not merge_limit:
-            merge_limit = 0.01
+        if not prec:
+            prec = 0.01
 
         #Enter Edit Mode
         bpy.ops.object.editmode_toggle()
         #Delete loose vertices, edges and faces
         bpy.ops.mesh.delete_loose(use_verts=True, use_edges=True, use_faces=True)
-        bpy.ops.mesh.remove_doubles(threshold=merge_limit)
+        bpy.ops.mesh.remove_doubles(threshold=prec*10)
         #Fill holes
-        bpy.ops.mesh.fill_holes(sides=100)
+        bpy.ops.mesh.fill_holes(sides=1000)
         #Exit edit mode
         bpy.ops.object.editmode_toggle()
 
         #Find smallest voxel size
-        if not voxel_limit:
-            voxel = findSmallestVoxel(self, context)
+        if not prec:
+            voxel, adapt = findSmallestVoxel(self, context)
         else:
-            voxel = voxel_limit
+            voxel = prec
+            adapt = 0
+
+        if voxel < prec:
+            voxel = prec
 
         #Add Remesh modifier
         bpy.ops.object.modifier_add(type = 'REMESH')
         mods["Remesh"].voxel_size = voxel
+        mods["Remesh"].adaptivity = adapt
         
         return {"FINISHED"}
 
@@ -53,17 +57,26 @@ def findSmallestVoxel(self, context):
     bm.from_mesh(bpy.context.active_object.data)
 
     bm.edges.ensure_lookup_table()
-    len = bm.edges[0].calc_length()
+    length = bm.edges[0].calc_length()
+    adapt = 0
 
     for e in bm.edges:
     
         curr = e.calc_length()
+        #adapt += curr
 
-        if curr < len :
+        if curr < length :
 
-            len = curr
+            length = curr
+            print(length)
 
-    return len
+        if curr > adapt :
+
+            adapt = curr
+
+    #adapt /= len(bm.edges)
+
+    return length, adapt
 
 def getSceneFaces(self, context):
 
