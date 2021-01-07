@@ -5,14 +5,13 @@ class HERITAGE_panel:
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "Heritage"
-    bl_options = {'DEFAULT_CLOSED'}
+    #bl_options = {'DEFAULT_CLOSED'}
 
 
 class HERITAGE_PT_panel(HERITAGE_panel, bpy.types.Panel):
 
     bl_idname = "HERITAGE_PT_panel"
     bl_label = "Heritage Addon"
-    #bl_context = "scene"
 
     def draw(self, context):
 
@@ -23,17 +22,23 @@ class HERITAGE_PT_panelPre(HERITAGE_panel, bpy.types.Panel):
 
     bl_parent_id = "HERITAGE_PT_panel"
     bl_label = "Pre-treatment"
+    bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
+
+        obj = context.active_object
 
         layout = self.layout
 
         layout.operator("heritage.pre_treatment", text="Pre-Treatment")
+        layout.prop(obj, 'merge_limit', text = "Merge distance [m]")
+        layout.prop(obj, 'voxel_limit', text = "Voxel size [m]")
 
 class HERITAGE_PT_panelModelling(HERITAGE_panel, bpy.types.Panel):
 
     bl_parent_id = "HERITAGE_PT_panel"
     bl_label = "Modelling"
+    bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
 
@@ -68,6 +73,7 @@ class HERITAGE_PT_panelAfter(HERITAGE_panel, bpy.types.Panel):
 
     bl_parent_id = "HERITAGE_PT_panel"
     bl_label = "Mesh checking"
+    bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
 

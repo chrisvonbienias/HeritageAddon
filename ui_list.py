@@ -85,7 +85,7 @@ class LIST_OT_DeleteItem (Operator):
 
     def execute(self, context):
 
-        my_list = context.scene.my_list
+        my_list = context.scene.heritage.my_list
         index = bpy.context.scene.list_index
         objects = context.scene.objects
         selected = list(filter(lambda o: o.type == 'MESH', objects))

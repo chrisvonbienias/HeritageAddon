@@ -64,16 +64,29 @@ def register():
 
     bpy.types.Object.curv_data = FloatVectorProperty(name = "Curvature values", default = (0, 0, 0), 
                                                     min = -2.0, max = 2.0, precision = 0, size = 3 )
-    bpy.types.Object.color_id = IntProperty(name = "Color ID", default = 0)
+    bpy.types.Object.color_id = IntProperty(name = "Color ID", default = -1)
     bpy.types.Object.mesh_status = IntVectorProperty(name = "Mesh status", default = (0, 0, 0), size = 3)
     bpy.types.Object.curv_status = StringProperty(name = "Curvature status", default = "N/A")
     bpy.types.Object.uv_status = StringProperty(name = "UV status", default = "N/A")
+    bpy.types.Object.merge_limit = FloatProperty(name = "Merge limit", default = 0)
+    bpy.types.Object.voxel_limit = IntProperty(name = "Voxel limit", default = 0)
+
+    #bmesh.types.BMEdge.curvature = FloatProperty(name = "Curvature", default = 0)
 
 #Unregistration
 def unregister():
 
     del bpy.types.Scene.my_list
     del bpy.types.Scene.list_index
+    del bpy.types.Scene.idx
+    del bpy.types.Scene.color_dict
+    del bpy.types.Object.color_id
+    del bpy.types.Object.curv_data
+    del bpy.types.Object.mesh_status
+    del bpy.types.Object.curv_status
+    del bpy.types.Object.uv_status
+    del bpy.types.Object.merge_limit
+    del bpy.types.Object.voxel_limit
     
     for cls in classes:
 
