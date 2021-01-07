@@ -14,7 +14,7 @@ class HERITAGE_OT_checkCurvature(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
 
-        return bpy.context.active_object and context.mode == 'OBJECT'
+        return bpy.context.active_object.type == 'MESH' and context.mode == 'OBJECT'
 
     def execute(self, context):
 
@@ -60,7 +60,7 @@ class HERITAGE_OT_colorCurvature(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
 
-        return bpy.context.active_object and context.mode == 'OBJECT'
+        return bpy.context.active_object.type == 'MESH' and context.mode == 'OBJECT'
 
     def execute(self, context):
 
@@ -75,7 +75,6 @@ class HERITAGE_OT_colorCurvature(bpy.types.Operator):
 
         col = obj.vertex_colors['Curvature']
         col.active = True
-            
 
         edges = bm.edges
         faces = bm.faces

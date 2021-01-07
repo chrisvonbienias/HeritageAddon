@@ -10,29 +10,40 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
     @classmethod
     def poll(cls, context):
 
-        return bpy.context.active_object and context.mode == 'OBJECT'
+        return bpy.context.active_object.type == 'MESH' and context.mode == 'OBJECT'
         
     def execute(self, context):
+
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+
+        obj = context.active_object
+        mods = obj.modifiers
+        merge_limit = obj.merge_limit
+        voxel_limit = obj.voxel_limit
+
+        if not merge_limit:
+            merge_limit = 0.01
 
         #Enter Edit Mode
         bpy.ops.object.editmode_toggle()
         #Delete loose vertices, edges and faces
         bpy.ops.mesh.delete_loose(use_verts=True, use_edges=True, use_faces=True)
-        bpy.ops.mesh.remove_doubles(threshold=0.001)
+        bpy.ops.mesh.remove_doubles(threshold=merge_limit)
         #Fill holes
         bpy.ops.mesh.fill_holes(sides=100)
         #Exit edit mode
         bpy.ops.object.editmode_toggle()
 
         #Find smallest voxel size
-        voxel = findSmallestVoxel(self, context)
-
-        #voxel = 0.1 #Placeholder for real value
+        if not voxel_limit:
+            voxel = findSmallestVoxel(self, context)
+        else:
+            voxel = voxel_limit
 
         #Add Remesh modifier
-        bpy.ops.object.modifier_add(type="REMESH")
-        bpy.context.object.modifiers["Remesh"].voxel_size = voxel
-
+        bpy.ops.object.modifier_add(type = 'REMESH')
+        mods["Remesh"].voxel_size = voxel
+        
         return {"FINISHED"}
 
 
@@ -43,7 +54,6 @@ def findSmallestVoxel(self, context):
 
     bm.edges.ensure_lookup_table()
     len = bm.edges[0].calc_length()
-    print(bm.edges[0].verts[0])
 
     for e in bm.edges:
     
@@ -55,4 +65,14 @@ def findSmallestVoxel(self, context):
 
     return len
 
-            
+def getSceneFaces(self, context):
+
+    view_layer = context.scene.view_layers['View Layer']
+    stats = context.scene.statistics(view_layer)
+
+    stat_list = stats.split(' | ')
+    faces = stat_list[3]
+    faces = faces.split(':')
+    faces = int(faces[1])
+
+    return faces
