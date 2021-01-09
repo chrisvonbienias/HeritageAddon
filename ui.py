@@ -82,6 +82,7 @@ class HERITAGE_PT_panelAfter(HERITAGE_panel, bpy.types.Panel):
         layout = self.layout
         row = layout.row()
         row.operator("heritage.toggle_face_orientation", text = "Toggle FO")
+        row.operator("heritage.toggle_shiny_mode", text = "Toggle Shiny Mode")
 
         layout = self.layout
         layout.label(text = "Curvature")
@@ -98,9 +99,8 @@ class HERITAGE_PT_panelAfter(HERITAGE_panel, bpy.types.Panel):
         layout = self.layout
         layout.operator("heritage.check_mesh", text = "Check mesh")
         layout.label(text = "Curvature: " + obj.curv_status)
-        layout.label(text = "Holes: " + str(obj.mesh_status[0]))
-        layout.label(text = "Flat Faces: " + str(obj.mesh_status[1]))
-        layout.label(text = "Density: " + str(obj.mesh_status[2]))
+        layout.label(text = "Non-manifold vertices: " + str(obj.mesh_status[0]))
+        layout.label(text = "Flat-Shaded Faces: " + str(obj.mesh_status[1]))
 
 class HERITAGE_PT_panelTexture(bpy.types.Panel):
 
