@@ -23,6 +23,26 @@ class HERITAGE_OT_toggleFaceOrientation (bpy.types.Operator):
 
         return {'FINISHED'}
 
+class HERIATGE_OT_toggleShinyMode(bpy.types.Operator):
+
+    bl_idname = "heritage.toggle_shiny_mode"
+    bl_label = "Toggle face orientation"
+    bl_description = "Toggles face orientation overlay"
+
+    def execute(self, context):
+
+        if bpy.context.space_data.shading.light == 'STUDIO':
+
+            bpy.context.space_data.shading.light = 'MATCAP'
+            bpy.context.space_data.shading.studio_light = 'metal_carpaint.exr'
+
+        else:
+
+            bpy.context.space_data.shading.light = 'STUDIO'
+    
+        return {'FINISHED'}
+
+
 class HERITAGE_OT_checkMesh(bpy.types.Operator):
 
     bl_idname = "heritage.check_mesh"
@@ -73,15 +93,5 @@ class HERITAGE_OT_checkMesh(bpy.types.Operator):
         selected = list(filter(lambda f: f.use_smooth == False, faces))
 
         obj.mesh_status[1] = len(selected)
-
-        # Mesh density check
-        bm = bmesh.new()
-        bm.from_mesh(obj.data)
-
-        volume = bm.calc_volume()
-        verts = len(bm.verts)
-        density = verts / volume
-
-        obj.mesh_status[2] = density
 
         return {'FINISHED'}

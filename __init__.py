@@ -46,7 +46,8 @@ classes = (
     HERITAGE_OT_addMaskShader,
     HERITAGE_OT_findColorID,
     HERITAGE_OT_toggleFaceOrientation,
-    HERITAGE_OT_checkMesh
+    HERITAGE_OT_checkMesh,
+    HERIATGE_OT_toggleShinyMode
 )
 
 #Registration
@@ -65,10 +66,10 @@ def register():
     bpy.types.Object.curv_data = FloatVectorProperty(name = "Curvature values", default = (0, 0, 0), 
                                                     min = -2.0, max = 2.0, precision = 0, size = 3 )
     bpy.types.Object.color_id = IntProperty(name = "Color ID", default = -1)
-    bpy.types.Object.mesh_status = IntVectorProperty(name = "Mesh status", default = (0, 0, 0), size = 3)
+    bpy.types.Object.mesh_status = IntVectorProperty(name = "Mesh status", default = (0, 0), size = 2)
     bpy.types.Object.curv_status = StringProperty(name = "Curvature status", default = "N/A")
     bpy.types.Object.uv_status = StringProperty(name = "UV status", default = "N/A")
-    bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.01, precision = 6, unit = 'LENGTH')
+    bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.0005, precision = 6, unit = 'LENGTH')
 
     #bmesh.types.BMEdge.curvature = FloatProperty(name = "Curvature", default = 0)
 
@@ -103,12 +104,12 @@ def colorDict():
     i = 0
     color_dict[-1] = (1.0, 1.0, 1.0, 1.0)
 
-    for r in range(2, -1, -1):
-        for g in range(2, -1, -1):
-            for b in range(2, -1, -1):
+    for r in range(4, -1, -1):
+        for g in range(4, -1, -1):
+            for b in range(4, -1, -1):
 
-                color = (r/2.0, g/2.0, b/2.0)
-                color_hsv = colorsys.rgb_to_hsv(r/2.0, g/2.0, b/2.0)
+                color = (r/4.0, g/4.0, b/4.0)
+                color_hsv = colorsys.rgb_to_hsv(r/4.0, g/4.0, b/4.0)
 
                 if (color_hsv[2] == 1.0 and color != (1.0, 1.0, 1.0)):
 

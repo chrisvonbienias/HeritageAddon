@@ -78,44 +78,51 @@ class HERITAGE_OT_colorCurvature(bpy.types.Operator):
 
         edges = bm.edges
         faces = bm.faces
+        verts = bm.verts
+        verts.ensure_lookup_table()
         faces.ensure_lookup_table()
         edges.ensure_lookup_table()
 
-        edge_dict = defaultdict(list)
-        edge_map = defaultdict(list)
+        verts_dict = defaultdict(list)
+        vertex_map = defaultdict(list)
 
         for f in faces:
-            for e in f.edges:
-
-                edge_dict[e].append(f)
-
-        for e, faces in edge_dict.items():
-            for f in faces:
-
-                loop = f.loops
-
-                for l in loop:
-
-                    if e.verts[0] == l.vert or e.verts[1] == l.vert:
-
-                        edge_map[e.index].append(l)
+            for v_ix, l_ix in zip(f.verts, f.loops):
+                vertex_map[v_ix.index].append(l_ix)
 
         for e in edges:
             
-            p1 = e.verts[0].co
-            p2 = e.verts[1].co
-            n1 = e.verts[0].normal
-            n2 = e.verts[1].normal
+            v1 = e.verts[0]
+            v2 = e.verts[1]
+            p1 = v1.co
+            p2 = v2.co
+            n1 = v1.normal
+            n2 = v2.normal
             
             curva = (n2 - n1).dot(p2 - p1)
             curva = curva / (p2 - p1).length
+            curva = round(curva, 3)
             
-            for l in edge_map[e.index]:
+            #Add v1
+            verts_dict[v1.index].append([e.index, abs(curva)])
+            #Add v2
+            verts_dict[v2.index].append([e.index, abs(curva)])
 
-                curva = abs(curva)
-                h = np.interp(curva, [0.2, 1.2], [0.33, 0])
-                color = colorsys.hsv_to_rgb(h, 1.0, 1.0)
-                color += (1.0,)
+        for v, edge in verts_dict.items():
+
+            average = 0
+            for e in edge:
+
+                average += e[1]
+
+            average /= len(edge)
+
+            h = np.interp(average, [0, 1.0], [0.333, 0])
+            color = colorsys.hsv_to_rgb(h, 1.0, 1.0)
+            color += (1.0,)
+
+            for l in vertex_map[v]:
+
                 col.data[l.index].color = color
 
         return {'FINISHED'}
