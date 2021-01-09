@@ -32,6 +32,7 @@ class HERITAGE_PT_panelPre(HERITAGE_panel, bpy.types.Panel):
 
         layout.operator("heritage.pre_treatment", text="Pre-Treatment")
         layout.prop(obj, 'mesh_precision', text = "Precision")
+        layout.prop(obj, 'mesh_adapt', text = "Adaptivity")
 
 class HERITAGE_PT_panelModelling(HERITAGE_panel, bpy.types.Panel):
 

@@ -20,9 +20,6 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
         mods = obj.modifiers
         prec = obj.mesh_precision
 
-        if not prec:
-            prec = 0.01
-
         #Enter Edit Mode
         bpy.ops.object.editmode_toggle()
         #Delete loose vertices, edges and faces
@@ -36,12 +33,16 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
         #Find smallest voxel size
         if not prec:
             voxel, adapt = findSmallestVoxel(self, context)
+            
         else:
             voxel = prec
             adapt = 0
 
         if voxel < prec:
             voxel = prec
+
+        if not obj.mesh_adapt:
+            adapt = 0
 
         #Add Remesh modifier
         bpy.ops.object.modifier_add(type = 'REMESH')
@@ -68,7 +69,7 @@ def findSmallestVoxel(self, context):
         if curr < length :
 
             length = curr
-            print(length)
+            
 
         if curr > adapt :
 

@@ -69,6 +69,7 @@ def register():
     bpy.types.Object.curv_status = StringProperty(name = "Curvature status", default = "N/A")
     bpy.types.Object.uv_status = StringProperty(name = "UV status", default = "N/A")
     bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.01, precision = 6, unit = 'LENGTH')
+    bpy.types.Object.mesh_adapt = BoolProperty(name = "Mesh adaptivity", default = True)
 
     #bmesh.types.BMEdge.curvature = FloatProperty(name = "Curvature", default = 0)
 
