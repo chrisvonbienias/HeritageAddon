@@ -2,7 +2,7 @@ import bpy
 from collections import defaultdict
 from mathutils import Vector
 
-class HERITAGE_OT_vertexColor(bpy.types.Operator):
+class HERITAGE_OT_VertexColor(bpy.types.Operator):
 
     bl_idname = "heritage.select_by_vertexcolor"
     bl_label = "Select by vertex color"

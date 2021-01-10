@@ -1,7 +1,7 @@
 import bpy
 import bmesh
 
-class HERITAGE_OT_preTreatment(bpy.types.Operator):
+class HERITAGE_OT_PreTreatment(bpy.types.Operator):
 
     bl_idname = "heritage.pre_treatment"
     bl_label = "Pre-Treatment"
@@ -24,7 +24,7 @@ class HERITAGE_OT_preTreatment(bpy.types.Operator):
         bpy.ops.object.editmode_toggle()
         #Delete loose vertices, edges and faces
         bpy.ops.mesh.delete_loose(use_verts=True, use_edges=True, use_faces=True)
-        bpy.ops.mesh.remove_doubles(threshold=prec*10)
+        bpy.ops.mesh.remove_doubles(threshold=prec)
         #Fill holes
         bpy.ops.mesh.fill_holes(sides=1000)
         #Exit edit mode
@@ -56,7 +56,6 @@ def findSmallestVoxel(self, context):
 
     bm = bmesh.new()
     bm.from_mesh(bpy.context.active_object.data)
-
     bm.edges.ensure_lookup_table()
     length = bm.edges[0].calc_length()
     adapt = 0
@@ -64,18 +63,8 @@ def findSmallestVoxel(self, context):
     for e in bm.edges:
     
         curr = e.calc_length()
-        #adapt += curr
-
-        if curr < length :
-
-            length = curr
-            
-
-        if curr > adapt :
-
-            adapt = curr
-
-    #adapt /= len(bm.edges)
+        if curr < length : length = curr
+        if curr > adapt : adapt = curr
 
     return length, adapt
 

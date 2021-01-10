@@ -26,16 +26,16 @@ from .mesh_check import *
 
 #Clases
 classes = (
-    HERITAGE_PT_panel,
-    HERITAGE_PT_panelTexture,
-    HERITAGE_PT_panelPre,
-    HERITAGE_PT_panelModelling,
-    HERITAGE_PT_panelAfter,
-    HERITAGE_OT_preTreatment,
-    HERITAGE_OT_vertexColor,
-    HERITAGE_OT_checkCurvature,
-    HERITAGE_OT_colorCurvature,
-    HERITAGE_OT_selectHoles,
+    HERITAGE_PT_Panel,
+    HERITAGE_PT_PanelTexture,
+    HERITAGE_PT_PanelPre,
+    HERITAGE_PT_PanelModelling,
+    HERITAGE_PT_PanelAfter,
+    HERITAGE_OT_PreTreatment,
+    HERITAGE_OT_VertexColor,
+    HERITAGE_OT_CheckCurvature,
+    HERITAGE_OT_ColorCurvature,
+    HERITAGE_OT_SelectHoles,
     ListItem,
     HERITAGE_UL_List,
     LIST_OT_NewItem,
@@ -43,11 +43,11 @@ classes = (
     LIST_OT_AssignObject,
     LIST_OT_RemoveObject,
     LIST_OT_ColorObjects,
-    HERITAGE_OT_addMaskShader,
-    HERITAGE_OT_findColorID,
-    HERITAGE_OT_toggleFaceOrientation,
-    HERITAGE_OT_checkMesh,
-    HERIATGE_OT_toggleShinyMode
+    HERITAGE_OT_AddMaskShader,
+    HERITAGE_OT_FindColorID,
+    HERITAGE_OT_ToggleFaceOrientation,
+    HERITAGE_OT_CheckMesh,
+    HERIATGE_OT_ToggleShinyMode
 )
 
 #Registration
@@ -69,10 +69,8 @@ def register():
     bpy.types.Object.mesh_status = IntVectorProperty(name = "Mesh status", default = (0, 0), size = 2)
     bpy.types.Object.curv_status = StringProperty(name = "Curvature status", default = "N/A")
     bpy.types.Object.uv_status = StringProperty(name = "UV status", default = "N/A")
-    bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.01, precision = 6, unit = 'LENGTH')
+    bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.0005, precision = 6, unit = 'LENGTH')
     bpy.types.Object.mesh_adapt = BoolProperty(name = "Mesh adaptivity", default = True)
-
-    #bmesh.types.BMEdge.curvature = FloatProperty(name = "Curvature", default = 0)
 
 #Unregistration
 def unregister():
@@ -87,6 +85,7 @@ def unregister():
     del bpy.types.Object.curv_status
     del bpy.types.Object.uv_status
     del bpy.types.Object.mesh_precision
+    del bpy.types.Object.mesh_adapt
     
     for cls in classes:
 

@@ -1,6 +1,6 @@
 import bpy
 
-class HERITAGE_OT_selectHoles(bpy.types.Operator):
+class HERITAGE_OT_SelectHoles(bpy.types.Operator):
 
     bl_idname = "heritage.select_holes"
     bl_label = "Select holes in mesh"

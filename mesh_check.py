@@ -1,7 +1,7 @@
 import bpy
 import bmesh
 
-class HERITAGE_OT_toggleFaceOrientation (bpy.types.Operator):
+class HERITAGE_OT_ToggleFaceOrientation (bpy.types.Operator):
 
     bl_idname = "heritage.toggle_face_orientation"
     bl_label = "Toggle face orientation"
@@ -23,7 +23,7 @@ class HERITAGE_OT_toggleFaceOrientation (bpy.types.Operator):
 
         return {'FINISHED'}
 
-class HERIATGE_OT_toggleShinyMode(bpy.types.Operator):
+class HERIATGE_OT_ToggleShinyMode(bpy.types.Operator):
 
     bl_idname = "heritage.toggle_shiny_mode"
     bl_label = "Toggle face orientation"
@@ -43,7 +43,7 @@ class HERIATGE_OT_toggleShinyMode(bpy.types.Operator):
         return {'FINISHED'}
 
 
-class HERITAGE_OT_checkMesh(bpy.types.Operator):
+class HERITAGE_OT_CheckMesh(bpy.types.Operator):
 
     bl_idname = "heritage.check_mesh"
     bl_label = "Check mesh"

@@ -1,6 +1,6 @@
 import bpy
 
-class HERITAGE_panel:
+class HERITAGE_Panel:
 
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
@@ -8,7 +8,7 @@ class HERITAGE_panel:
     #bl_options = {'DEFAULT_CLOSED'}
 
 
-class HERITAGE_PT_panel(HERITAGE_panel, bpy.types.Panel):
+class HERITAGE_PT_Panel(HERITAGE_Panel, bpy.types.Panel):
 
     bl_idname = "HERITAGE_PT_panel"
     bl_label = "Heritage Addon"
@@ -18,7 +18,7 @@ class HERITAGE_PT_panel(HERITAGE_panel, bpy.types.Panel):
         layout = self.layout
         scene = context.scene
 
-class HERITAGE_PT_panelPre(HERITAGE_panel, bpy.types.Panel):
+class HERITAGE_PT_PanelPre(HERITAGE_Panel, bpy.types.Panel):
 
     bl_parent_id = "HERITAGE_PT_panel"
     bl_label = "Pre-treatment"
@@ -34,7 +34,7 @@ class HERITAGE_PT_panelPre(HERITAGE_panel, bpy.types.Panel):
         layout.prop(obj, 'mesh_precision', text = "Precision")
         layout.prop(obj, 'mesh_adapt', text = "Adaptivity")
 
-class HERITAGE_PT_panelModelling(HERITAGE_panel, bpy.types.Panel):
+class HERITAGE_PT_PanelModelling(HERITAGE_Panel, bpy.types.Panel):
 
     bl_parent_id = "HERITAGE_PT_panel"
     bl_label = "Modelling"
@@ -69,7 +69,7 @@ class HERITAGE_PT_panelModelling(HERITAGE_panel, bpy.types.Panel):
             row = layout.row()
             row.prop(item, "name")
 
-class HERITAGE_PT_panelAfter(HERITAGE_panel, bpy.types.Panel):
+class HERITAGE_PT_PanelAfter(HERITAGE_Panel, bpy.types.Panel):
 
     bl_parent_id = "HERITAGE_PT_panel"
     bl_label = "Mesh checking"
@@ -102,7 +102,7 @@ class HERITAGE_PT_panelAfter(HERITAGE_panel, bpy.types.Panel):
         layout.label(text = "Non-manifold vertices: " + str(obj.mesh_status[0]))
         layout.label(text = "Flat-Shaded Faces: " + str(obj.mesh_status[1]))
 
-class HERITAGE_PT_panelTexture(bpy.types.Panel):
+class HERITAGE_PT_PanelTexture(bpy.types.Panel):
 
     bl_idname = "HERITAGE_PT_panelTexture"
     bl_label = "Heritage Addon"

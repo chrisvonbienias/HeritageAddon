@@ -2,7 +2,7 @@ import bpy
 import bmesh
 import numpy as np
 
-class HERITAGE_OT_addMaskShader(bpy.types.Operator):
+class HERITAGE_OT_AddMaskShader(bpy.types.Operator):
 
     bl_idname = "heritage.add_mask_shader"
     bl_label = "Add Masking Shader"
@@ -20,7 +20,7 @@ class HERITAGE_OT_addMaskShader(bpy.types.Operator):
 
         return{'FINISHED'}
 
-class HERITAGE_OT_findColorID(bpy.types.Operator):
+class HERITAGE_OT_FindColorID(bpy.types.Operator):
 
     bl_idname = "heritage.find_colorid"
     bl_label = "Auto-masking"

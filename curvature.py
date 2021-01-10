@@ -5,7 +5,7 @@ from collections import defaultdict
 import numpy as np
 import colorsys
 
-class HERITAGE_OT_checkCurvature(bpy.types.Operator):
+class HERITAGE_OT_CheckCurvature(bpy.types.Operator):
 
     bl_idname = "heritage.check_curvature"
     bl_label = "Calculate curvature"
@@ -37,7 +37,6 @@ class HERITAGE_OT_checkCurvature(bpy.types.Operator):
             
             curva = (n2 - n1).dot(p2 - p1)
             curva = curva / (p2 - p1).length
-            #print(curva)
             cmedian += curva
             
             if curva > cmax: cmax = curva
@@ -51,7 +50,7 @@ class HERITAGE_OT_checkCurvature(bpy.types.Operator):
 
         return {'FINISHED'}
 
-class HERITAGE_OT_colorCurvature(bpy.types.Operator):
+class HERITAGE_OT_ColorCurvature(bpy.types.Operator):
 
     bl_idname = "heritage.color_curvature"
     bl_label = "Color curvature"

@@ -26,7 +26,6 @@ class HERITAGE_UL_List (UIList):
 
         if self.layout_type in {'DEFAULT', 'COMPACT'}:
 
-            #layout.label(text = item.name, icon = custom_icon)
             split = layout.split(factor=0.3)
             split.label(text = "ID: %i" % (item.idx))
             split.label(text = item.name, icon = custom_icon)
