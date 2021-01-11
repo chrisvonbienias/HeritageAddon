@@ -14,10 +14,8 @@ class HERITAGE_OT_VertexColor(bpy.types.Operator):
         return bpy.context.active_object and context.mode == 'EDIT_MESH'
 
     def execute(self, context):
-
-        if bpy.context.active_object.mode == 'EDIT':
-            
-            bpy.ops.object.editmode_toggle()
+        
+        bpy.ops.object.editmode_toggle()
         
         obj = bpy.context.active_object
         col = obj.data.vertex_colors.active
