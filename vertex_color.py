@@ -41,7 +41,6 @@ class HERITAGE_OT_VertexColor(bpy.types.Operator):
                 if comp <= epsilon:
                     
                     obj.data.vertices[v_ix].select = True
-                    #print("Color: ", color, "Comp: ", comp, "Index: ", v_ix)
                     
         bpy.ops.object.editmode_toggle()
         bpy.ops.mesh.select_mode(type='VERT')

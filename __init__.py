@@ -12,6 +12,7 @@ bl_info = {
 import bpy
 from bpy.props import *
 from bpy.types import PropertyGroup, UIList, Operator, Panel
+from math import sqrt
 import colorsys
 
 #Classes imports
@@ -100,9 +101,10 @@ if __name__ == "__main__":
 
 def colorDict():
 
-    color_dict = defaultdict(tuple)
+    color_dict = defaultdict(list)
+    dist_dict = defaultdict(tuple)
     i = 0
-    color_dict[-1] = (1.0, 1.0, 1.0, 1.0)
+    dist_dict[-1] = (1.0, 1.0, 1.0, 1.0)
 
     for r in range(4, -1, -1):
         for g in range(4, -1, -1):
@@ -114,7 +116,16 @@ def colorDict():
                 if (color_hsv[2] == 1.0 and color != (1.0, 1.0, 1.0)):
 
                     color += (1.0,)
-                    color_dict[i] = color
+                    color_dict[i].append(color)
+                    dist = sqrt(color[0]**2 + color[1]**2 + color[2]**2)
+                    color_dict[i].append(dist)
                     i += 1
+
+    color_dict = sorted(color_dict.values(), key = lambda x: x[1])
+
+    for c in color_dict:
+
+        color = c[0]
+        dist_dict[color_dict.index(c)] = color
     
-    return color_dict
+    return dist_dict
