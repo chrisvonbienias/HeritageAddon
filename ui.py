@@ -5,7 +5,6 @@ class HERITAGE_Panel:
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "Heritage"
-    #bl_options = {'DEFAULT_CLOSED'}
 
 
 class HERITAGE_PT_Panel(HERITAGE_Panel, bpy.types.Panel):
@@ -46,26 +45,20 @@ class HERITAGE_PT_PanelModelling(HERITAGE_Panel, bpy.types.Panel):
         scene = context.scene
 
         layout.operator("heritage.select_by_vertexcolor")
-
         layout.operator("heritage.select_holes")
-        
         row = layout.row()
         row.template_list("HERITAGE_UL_List", "The_List", scene, "my_list", scene, "list_index")
-
         row = layout.row()
         row.operator('my_list.assign_object', text = 'Assign')
         row.operator('my_list.remove_object', text = 'Remove')
-
         row = layout.row()
         row.operator('my_list.new_item', text = 'New group')
         row.operator('my_list.delete_item', text  = 'Remove Group')
-
         layout.operator('my_list.color_objects', text = 'Color Objects')
 
         if scene.list_index >= 0 and scene.my_list :
 
             item = scene.my_list[scene.list_index]
-
             row = layout.row()
             row.prop(item, "name")
 

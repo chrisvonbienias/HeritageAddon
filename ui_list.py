@@ -7,14 +7,14 @@ class ListItem (PropertyGroup):
     name: StringProperty(
 
         name = "Name",
-        description = "Description 1",
+        description = "Name of the material",
         default = "Material"
 
     )
 
     idx: IntProperty (
 
-        name = "Index",
+        name = "ID",
         default = 0
     )
 
@@ -24,16 +24,10 @@ class HERITAGE_UL_List (UIList):
 
         custom_icon = 'OBJECT_DATA'
 
-        if self.layout_type in {'DEFAULT', 'COMPACT'}:
+        split = layout.split(factor=0.3)
+        split.label(text = "ID: %i" % (item.idx))
+        split.label(text = item.name, icon = custom_icon)
 
-            split = layout.split(factor=0.3)
-            split.label(text = "ID: %i" % (item.idx))
-            split.label(text = item.name, icon = custom_icon)
-
-        elif self.layout_type in {'GRID'}:
-
-            layout.aligment = 'CENTER'
-            layout.label(text = "", icon = custom_icon)
 
 class LIST_OT_NewItem (Operator):
 
@@ -43,7 +37,7 @@ class LIST_OT_NewItem (Operator):
     @classmethod
     def poll(cls, context):
 
-        return context.mode == 'OBJECT' and len(context.scene.my_list) <= len(context.scene.color_dict) - 2
+        return len(context.scene.my_list) <= len(context.scene.color_dict) - 2
 
     def execute(self, context):
 
@@ -109,7 +103,7 @@ class LIST_OT_AssignObject (Operator):
     @classmethod
     def poll(cls, context):
 
-        return context.scene.my_list and bpy.context.selected_objects
+        return context.scene.my_list and bpy.context.selected_objects and context.active_object.type == 'MESH'
 
     def execute(self, context):
 
@@ -131,7 +125,7 @@ class LIST_OT_RemoveObject (Operator):
     @classmethod
     def poll(cls, context):
 
-        return context.scene.my_list and bpy.context.selected_objects
+        return context.scene.my_list and bpy.context.selected_objects and context.active_object.type == 'MESH'
 
     def execute(self, context):
 

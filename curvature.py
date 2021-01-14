@@ -35,18 +35,21 @@ class HERITAGE_OT_CheckCurvature(bpy.types.Operator):
             n1 = e.verts[0].normal
             n2 = e.verts[1].normal
             
-            curva = (n2 - n1).dot(p2 - p1)
-            curva = curva / (p2 - p1).length
-            cmedian += curva
+            curva1 = 2 * n1.dot(p1 - p2)
+            curva2 = 2 * n2.dot(p2 - p1)
+            curva1 = curva1 / (p1 - p2).length
+            curva2 = curva2 / (p2 - p1).length
+            curva1 = round(curva1, 3)
+            curva2 = round(curva2, 3)
             
-            if curva > cmax: cmax = curva
-            if curva < cmin: cmin = curva
+            if max(curva1, curva2) > cmax: cmax = max(curva1, curva2)
+            if min(curva1, curva2) < cmin: cmin = min(curva1, curva2)
 
-        cmedian = cmedian/len(edges)
+        #cmedian = cmedian/len(edges)
 
         obj.curv_data[0] = round(cmin, 2)
         obj.curv_data[1] = round(cmax, 2)
-        obj.curv_data[2] = round(cmedian, 2)
+        #obj.curv_data[2] = round(cmedian, 2)
 
         return {'FINISHED'}
 
@@ -98,14 +101,17 @@ class HERITAGE_OT_ColorCurvature(bpy.types.Operator):
             n1 = v1.normal
             n2 = v2.normal
             
-            curva = (n2 - n1).dot(p2 - p1)
-            curva = curva / (p2 - p1).length
-            curva = round(curva, 3)
+            curva1 = 2 * n1.dot(p1 - p2)
+            curva2 = 2 * n2.dot(p2 - p1)
+            curva1 = curva1 / (p1 - p2).length
+            curva2 = curva2 / (p2 - p1).length
+            curva1 = round(curva1, 3)
+            curva2 = round(curva2, 3)
             
             #Add v1
-            verts_dict[v1.index].append([e.index, abs(curva)])
+            verts_dict[v1.index].append([e.index, abs(curva1)])
             #Add v2
-            verts_dict[v2.index].append([e.index, abs(curva)])
+            verts_dict[v2.index].append([e.index, abs(curva2)])
 
         for v, edge in verts_dict.items():
 

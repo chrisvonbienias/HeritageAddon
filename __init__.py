@@ -103,8 +103,8 @@ def colorDict():
 
     color_dict = defaultdict(list)
     dist_dict = defaultdict(tuple)
-    i = 0
     dist_dict[-1] = (1.0, 1.0, 1.0, 1.0)
+    i = 0
 
     for r in range(4, -1, -1):
         for g in range(4, -1, -1):
@@ -125,7 +125,6 @@ def colorDict():
 
     for c in color_dict:
 
-        color = c[0]
-        dist_dict[color_dict.index(c)] = color
+        dist_dict[color_dict.index(c)] = c[0]
     
     return dist_dict
