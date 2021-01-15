@@ -23,9 +23,12 @@ class HERITAGE_OT_PreTreatment(bpy.types.Operator):
         #Enter Edit Mode
         bpy.ops.object.editmode_toggle()
         #Delete loose vertices, edges and faces
+        bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.delete_loose(use_verts=True, use_edges=True, use_faces=True)
+        bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.remove_doubles(threshold=prec)
         #Fill holes
+        bpy.ops.mesh.select_all(action='SELECT')
         bpy.ops.mesh.fill_holes(sides=1000)
         #Exit edit mode
         bpy.ops.object.editmode_toggle()
