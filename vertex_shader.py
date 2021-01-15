@@ -13,10 +13,29 @@ class HERITAGE_OT_AddMaskShader(bpy.types.Operator):
 
         return bpy.context.active_object and bpy.context.view_layer.objects.active.active_material
 
-
     def execute(self, context):
 
-        vertexShader(self, context)
+        bpy.ops.node.select_all(action='DESELECT')
+        obj = bpy.context.active_object
+        material = bpy.context.view_layer.objects.active.active_material
+        material.use_nodes = True
+        node_tree = material.node_tree
+        nodes = node_tree.nodes
+        links = node_tree.links
+
+        status = False
+        for n in nodes:
+
+            if n.label == "Vertex Color Mask":
+
+                n.select = True
+                bpy.ops.node.duplicate()
+                status = True
+                break
+
+        if not status:
+
+            vertexShader(self, context)
 
         return{'FINISHED'}
 
@@ -65,7 +84,7 @@ class HERITAGE_OT_FindColorID(bpy.types.Operator):
 
                 status = True
 
-            vertexShader(self, context)
+            bpy.ops.heritage.add_mask_shader()
             nodes[-1].inputs[1].default_value = c
             links.new(vnode.outputs[0], nodes[-1].inputs[0])  
             nodes[-1].location = (x, y)
