@@ -25,8 +25,8 @@ class HERITAGE_OT_CheckCurvature(bpy.types.Operator):
         edges = bm.edges
         edges.ensure_lookup_table()
         cmedian = 0
-        cmax = -2
-        cmin = 2
+        cmax = -10
+        cmin = 10
 
         for e in edges:
             
@@ -37,8 +37,13 @@ class HERITAGE_OT_CheckCurvature(bpy.types.Operator):
             
             curva1 = 2 * n1.dot(p1 - p2)
             curva2 = 2 * n2.dot(p2 - p1)
-            curva1 = curva1 / (p1 - p2).length
-            curva2 = curva2 / (p2 - p1).length
+
+            if not (p1 - p2).length :
+                curva1 = curva1 / (p1 - p2).length
+
+            if not (p2 - p1).length :
+                curva2 = curva2 / (p2 - p1).length
+
             curva1 = round(curva1, 3)
             curva2 = round(curva2, 3)
             
@@ -103,8 +108,13 @@ class HERITAGE_OT_ColorCurvature(bpy.types.Operator):
             
             curva1 = 2 * n1.dot(p1 - p2)
             curva2 = 2 * n2.dot(p2 - p1)
-            curva1 = curva1 / (p1 - p2).length
-            curva2 = curva2 / (p2 - p1).length
+
+            if (p1 - p2).length :
+                curva1 = curva1 / (p1 - p2).length
+
+            if (p2 - p1).length :
+                curva2 = curva2 / (p2 - p1).length
+
             curva1 = round(curva1, 3)
             curva2 = round(curva2, 3)
             
