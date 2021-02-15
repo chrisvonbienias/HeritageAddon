@@ -2,7 +2,7 @@ import bpy
 from collections import defaultdict
 from mathutils import Vector
 
-class HERITAGE_OT_vertexColor(bpy.types.Operator):
+class HERITAGE_OT_VertexColor(bpy.types.Operator):
 
     bl_idname = "heritage.select_by_vertexcolor"
     bl_label = "Select by vertex color"
@@ -14,10 +14,8 @@ class HERITAGE_OT_vertexColor(bpy.types.Operator):
         return bpy.context.active_object and context.mode == 'EDIT_MESH'
 
     def execute(self, context):
-
-        if bpy.context.active_object.mode == 'EDIT':
-            
-            bpy.ops.object.editmode_toggle()
+        
+        bpy.ops.object.editmode_toggle()
         
         obj = bpy.context.active_object
         col = obj.data.vertex_colors.active
@@ -41,7 +39,6 @@ class HERITAGE_OT_vertexColor(bpy.types.Operator):
                 if comp <= epsilon:
                     
                     obj.data.vertices[v_ix].select = True
-                    #print("Color: ", color, "Comp: ", comp, "Index: ", v_ix)
                     
         bpy.ops.object.editmode_toggle()
         bpy.ops.mesh.select_mode(type='VERT')

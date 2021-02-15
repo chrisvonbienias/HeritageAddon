@@ -12,6 +12,7 @@ bl_info = {
 import bpy
 from bpy.props import *
 from bpy.types import PropertyGroup, UIList, Operator, Panel
+from math import sqrt
 import colorsys
 
 #Classes imports
@@ -26,16 +27,16 @@ from .mesh_check import *
 
 #Clases
 classes = (
-    HERITAGE_PT_panel,
-    HERITAGE_PT_panelTexture,
-    HERITAGE_PT_panelPre,
-    HERITAGE_PT_panelModelling,
-    HERITAGE_PT_panelAfter,
-    HERITAGE_OT_preTreatment,
-    HERITAGE_OT_vertexColor,
-    HERITAGE_OT_checkCurvature,
-    HERITAGE_OT_colorCurvature,
-    HERITAGE_OT_selectHoles,
+    HERITAGE_PT_Panel,
+    HERITAGE_PT_PanelTexture,
+    HERITAGE_PT_PanelPre,
+    HERITAGE_PT_PanelModelling,
+    HERITAGE_PT_PanelAfter,
+    HERITAGE_OT_PreTreatment,
+    HERITAGE_OT_VertexColor,
+    HERITAGE_OT_CheckCurvature,
+    HERITAGE_OT_ColorCurvature,
+    HERITAGE_OT_SelectHoles,
     ListItem,
     HERITAGE_UL_List,
     LIST_OT_NewItem,
@@ -43,11 +44,11 @@ classes = (
     LIST_OT_AssignObject,
     LIST_OT_RemoveObject,
     LIST_OT_ColorObjects,
-    HERITAGE_OT_addMaskShader,
-    HERITAGE_OT_findColorID,
-    HERITAGE_OT_toggleFaceOrientation,
-    HERITAGE_OT_checkMesh,
-    HERIATGE_OT_toggleShinyMode
+    HERITAGE_OT_AddMaskShader,
+    HERITAGE_OT_FindColorID,
+    HERITAGE_OT_ToggleFaceOrientation,
+    HERITAGE_OT_CheckMesh,
+    HERIATGE_OT_ToggleShinyMode
 )
 
 #Registration
@@ -69,10 +70,8 @@ def register():
     bpy.types.Object.mesh_status = IntVectorProperty(name = "Mesh status", default = (0, 0), size = 2)
     bpy.types.Object.curv_status = StringProperty(name = "Curvature status", default = "N/A")
     bpy.types.Object.uv_status = StringProperty(name = "UV status", default = "N/A")
-    bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.01, precision = 6, unit = 'LENGTH')
+    bpy.types.Object.mesh_precision = FloatProperty(name = "Mesh precision", default = 0.0005, precision = 6, unit = 'LENGTH')
     bpy.types.Object.mesh_adapt = BoolProperty(name = "Mesh adaptivity", default = True)
-
-    #bmesh.types.BMEdge.curvature = FloatProperty(name = "Curvature", default = 0)
 
 #Unregistration
 def unregister():
@@ -87,6 +86,7 @@ def unregister():
     del bpy.types.Object.curv_status
     del bpy.types.Object.uv_status
     del bpy.types.Object.mesh_precision
+    del bpy.types.Object.mesh_adapt
     
     for cls in classes:
 
@@ -101,9 +101,10 @@ if __name__ == "__main__":
 
 def colorDict():
 
-    color_dict = defaultdict(tuple)
+    color_dict = defaultdict(list)
+    dist_dict = defaultdict(tuple)
+    dist_dict[-1] = (1.0, 1.0, 1.0, 1.0)
     i = 0
-    color_dict[-1] = (1.0, 1.0, 1.0, 1.0)
 
     for r in range(4, -1, -1):
         for g in range(4, -1, -1):
@@ -115,7 +116,15 @@ def colorDict():
                 if (color_hsv[2] == 1.0 and color != (1.0, 1.0, 1.0)):
 
                     color += (1.0,)
-                    color_dict[i] = color
+                    color_dict[i].append(color)
+                    dist = sqrt(color[0]**2 + color[1]**2 + color[2]**2)
+                    color_dict[i].append(dist)
                     i += 1
+
+    color_dict = sorted(color_dict.values(), key = lambda x: x[1])
+
+    for c in color_dict:
+
+        dist_dict[color_dict.index(c)] = c[0]
     
-    return color_dict
+    return dist_dict
