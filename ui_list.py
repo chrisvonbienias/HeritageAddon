@@ -151,7 +151,11 @@ class LIST_OT_ColorObjects (Operator):
     def execute(self, context):
 
         objects = context.scene.objects
+<<<<<<< HEAD
         selected = list(filter(lambda o: o.type == 'MESH' and o.select_get() == True, objects))
+=======
+        selected = list(filter(lambda o: o.type == 'MESH', objects))
+>>>>>>> 2089271d190b82c4a0e324eaf77ba106ced4343e
         color_dict = bpy.types.Scene.color_dict
 
         for obj in selected:
