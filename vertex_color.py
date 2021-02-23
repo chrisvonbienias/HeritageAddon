@@ -55,7 +55,7 @@ def getColor(obj):
         
     if len(selected_poly):
 
-        p = selected_poly[0]
+        p = selected_poly[-1]
         r = g = b = 0
         
         for i in p.loop_indices:
