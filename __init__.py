@@ -101,30 +101,21 @@ if __name__ == "__main__":
 
 def colorDict():
 
-    color_dict = defaultdict(list)
-    dist_dict = defaultdict(tuple)
-    dist_dict[-1] = (1.0, 1.0, 1.0, 1.0)
+    color_dict = defaultdict(tuple)
+    color_dict[-1] = (1.0, 1.0, 1.0, 1.0)
     i = 0
 
-    for r in range(4, -1, -1):
-        for g in range(4, -1, -1):
-            for b in range(4, -1, -1):
+    for b in range(0, 3, 1):
+        for g in range(0, 3, 1):
+            for r in range(0, 3, 1):
 
-                color = (r/4.0, g/4.0, b/4.0)
-                color_hsv = colorsys.rgb_to_hsv(r/4.0, g/4.0, b/4.0)
+                color = (r/2.0, g/2.0, b/2.0)
+                color_hsv = colorsys.rgb_to_hsv(r/2.0, g/2.0, b/2.0)
 
                 if (color_hsv[2] == 1.0 and color != (1.0, 1.0, 1.0)):
 
                     color += (1.0,)
-                    color_dict[i].append(color)
-                    dist = sqrt(color[0]**2 + color[1]**2 + color[2]**2)
-                    color_dict[i].append(dist)
+                    color_dict[i] = color
                     i += 1
 
-    color_dict = sorted(color_dict.values(), key = lambda x: x[1])
-
-    for c in color_dict:
-
-        dist_dict[color_dict.index(c)] = c[0]
-    
-    return dist_dict
+    return color_dict
